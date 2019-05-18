@@ -30,29 +30,43 @@ public class GreetingController {
             }
         }
         // not found
-        return greetingLinkedList.get(0);
+        return new Greeting(0, "This id does not exist");
     }
 
-    @RequestMapping(method = POST)
-    public void postMethod(@RequestParam(value="id", defaultValue="0") String id){
+    @RequestMapping(value = "/greeting", method = POST)
+    public Greeting postMethod(@RequestParam(value="id", defaultValue="0") String id){
         int id_int = Integer.parseInt(id);
         if (id_int <= 0){
-            return;
-        }else {
-            greetingLinkedList.add(new Greeting(id_int, template));
+            return new Greeting(0, "id <= 0");
+        }
+        else {
+            for (Greeting node: greetingLinkedList) {
+                if (node.getId() == id_int){
+                    return new Greeting(0, "This id exists");
+                }
+            }
+
+            Greeting newNode = new Greeting(id_int, template);
+            greetingLinkedList.add(newNode);
+            return newNode;
         }
     }
 
-    @RequestMapping(method = DELETE)
-    public void deleteMethod(@RequestParam(value="id", defaultValue="0") String id){
+    @RequestMapping(value = "/greeting",method = DELETE)
+    public Greeting deleteMethod(@RequestParam(value="id", defaultValue="0") String id){
         int id_int = Integer.parseInt(id);
 
         if (id_int > 0){
             for (Greeting node: greetingLinkedList) {
                 if (node.getId() == id_int){
                     greetingLinkedList.remove(node);
+                    return new Greeting(0, "Successful delete");
                 }
             }
+        }else {
+            return new Greeting(0, "id <= 0");
         }
+
+        return new Greeting(0, "This id does not exist");
     }
 }
