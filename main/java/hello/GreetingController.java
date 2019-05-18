@@ -21,21 +21,30 @@ public class GreetingController {
     }
 
     @RequestMapping("/api/tasks/")
-    public LinkedList<Greeting> greeting() {
-        return greetingLinkedList;
-    }
-
-    @RequestMapping("/api/tasks/")
-    public Greeting greeting(@RequestParam(value="id", defaultValue="0") String id) {
+    public LinkedList<Greeting> greeting(@RequestParam(value="id", defaultValue="-1") String id) {
         int id_int = Integer.parseInt(id);
 
-        for (Greeting node: greetingLinkedList) {
-            if (node.getId() == id_int){
-                return node;
-            }
+        if (id_int == -1){
+            return greetingLinkedList;
         }
-        // not found
-        return new Greeting(0, "This id does not exist");
+
+        LinkedList<Greeting> result = new LinkedList<Greeting>();
+
+        if (id_int > 0){
+            for (Greeting node: greetingLinkedList) {
+                if (node.getId() == id_int){
+                    result.add(node);
+                    return result;
+                }
+            }
+            // not found
+            result.add(new Greeting(0, "This id does not exist"));
+            return result;
+        }else {
+            result.add(new Greeting(0, "id <= 0"));
+            return result;
+        }
+
     }
 
     @RequestMapping(value = "/api/tasks/", method = POST)
