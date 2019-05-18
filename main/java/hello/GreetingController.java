@@ -20,7 +20,7 @@ public class GreetingController {
         greetingLinkedList.add(new Greeting(0, "error!"));
     }
 
-    @RequestMapping("/greeting")
+    @RequestMapping("/api/tasks/")
     public Greeting greeting(@RequestParam(value="id", defaultValue="0") String id) {
         int id_int = Integer.parseInt(id);
 
@@ -33,7 +33,7 @@ public class GreetingController {
         return new Greeting(0, "This id does not exist");
     }
 
-    @RequestMapping(value = "/greeting", method = POST)
+    @RequestMapping(value = "/api/tasks/", method = POST)
     public Greeting postMethod(@RequestParam(value="id", defaultValue="0") String id){
         int id_int = Integer.parseInt(id);
         if (id_int <= 0){
@@ -52,7 +52,7 @@ public class GreetingController {
         }
     }
 
-    @RequestMapping(value = "/greeting",method = DELETE)
+    @RequestMapping(value = "/api/tasks/",method = DELETE)
     public Greeting deleteMethod(@RequestParam(value="id", defaultValue="0") String id){
         int id_int = Integer.parseInt(id);
 
