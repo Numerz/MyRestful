@@ -21,6 +21,11 @@ public class GreetingController {
     }
 
     @RequestMapping("/api/tasks/")
+    public LinkedList<Greeting> greeting() {
+        return greetingLinkedList;
+    }
+
+    @RequestMapping("/api/tasks/")
     public Greeting greeting(@RequestParam(value="id", defaultValue="0") String id) {
         int id_int = Integer.parseInt(id);
 
